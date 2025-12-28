@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Matrix: AI Knowledge Challenge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8A84FF;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
+            --accent2: #FF9D76;
+            --light: #F8F9FF;
+            --dark: #2D3047;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --shadow: 0 10px 30px rgba(108, 99, 255, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F8F9FF 0%, #E8EAFF 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2.8rem;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            border-radius: 18px;
+            padding: 18px 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .stat-icon.score { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+        .stat-icon.questions { background: linear-gradient(135deg, var(--secondary), #FF9E7D); }
+        .stat-icon.correct { background: linear-gradient(135deg, var(--success), #8BC34A); }
+        .stat-icon.streak { background: linear-gradient(135deg, var(--accent), #5B86E5); }
+        .stat-icon.time { background: linear-gradient(135deg, var(--accent2), #FF9D76); }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .stat-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 35px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 1000px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .ai-sidebar {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--accent2));
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .ai-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.4);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .ai-info h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .ai-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .ai-message-container {
+            background: #F8F9FF;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-message-container::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 5rem;
+            color: rgba(108, 99, 255, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .ai-message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-personality {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .personality-tag {
+            background: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--secondary), #FF9E7D);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .question-number {
+            font-size: 1.1rem;
+            color: var(--primary);
+            background: #F0F2FF;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-category {
+            font-size: 1.1rem;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--secondary), #FF9E7D);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-text {
+            font-size: 1.6rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 10px 0;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: #F8F9FF;
+            border: 2px solid #E8EAFF;
+            border-radius: 18px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: translateX(10px);
+            border-color: var(--primary-light);
+            background: white;
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.1);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.05);
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .option.incorrect {
+            border-color: var(--warning);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .option-letter {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .option.selected .option-letter {
+            background: var(--primary);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            flex-grow: 1;
+        }
+
+        .option-check {
+            opacity: 0;
+            color: var(--success);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .option.correct .option-check {
+            opacity: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid #E8EAFF;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .feedback-container {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 18px;
+            background: #F8F9FF;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-container.show {
+            display: block;
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feedback-icon.correct {
+            background: linear-gradient(135deg, var(--success), #8BC34A);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .feedback-icon.incorrect {
+            background: linear-gradient(135deg, var(--warning), #FFB74D);
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .feedback-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .feedback-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.07;
+            animation: floatShape 25s infinite linear;
+            filter: blur(1px);
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: 5%;
+            left: 5%;
+            animation-delay: 0s;
+            animation-duration: 30s;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            bottom: 10%;
+            right: 8%;
+            animation-delay: -5s;
+            animation-duration: 35s;
+        }
+
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            top: 40%;
+            left: 80%;
+            animation-delay: -10s;
+            animation-duration: 40s;
+        }
+
+        .shape-4 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent2);
+            bottom: 30%;
+            left: 15%;
+            animation-delay: -15s;
+            animation-duration: 45s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -40px) rotate(90deg);
+            }
+            50% {
+                transform: translate(-30px, 20px) rotate(180deg);
+            }
+            75% {
+                transform: translate(40px, 30px) rotate(270deg);
+            }
+        }
+
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #E8EAFF;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--accent2));
+            border-radius: 6px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .game-complete {
+            display: none;
+            text-align: center;
+            padding: 50px 30px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .game-complete.show {
+            display: block;
+        }
+
+        .trophy-icon {
+            font-size: 6rem;
+            color: #FFD700;
+            margin-bottom: 25px;
+            animation: bounce 2s infinite;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .result-title {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .result-score {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .result-details {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .result-item {
+            background: #F8F9FF;
+            padding: 20px;
+            border-radius: 16px;
+            min-width: 150px;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .result-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .result-message {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, var(--secondary), #FF9E7D);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(255, 101, 132, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 101, 132, 0.4);
+        }
+
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: white;
+            border: 2px solid #E8EAFF;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .stats-bar {
+                padding: 15px;
+            }
+            
+            .stat-info h3 {
+                font-size: 1.5rem;
+            }
+            
+            .game-container {
+                gap: 25px;
+            }
+            
+            .ai-sidebar, .question-container {
+                padding: 25px;
+            }
+            
+            .question-text {
+                font-size: 1.4rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .result-title {
+                font-size: 2.2rem;
+            }
+            
+            .result-score {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain logo-icon"></i>
+                <h1>Mind Matrix</h1>
+            </div>
+            <p class="tagline">Challenge your mind with 100+ AI-generated questions. Test your knowledge across diverse topics!</p>
+            
+            <!-- Category selector -->
+            <div class="category-selector" id="categorySelector">
+                <!-- Categories will be added by JavaScript -->
+            </div>
+            
+            <!-- Progress bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span>Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">10</span></span>
+                    <span id="progressPercent">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-icon score">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="scoreValue">0</h3>
+                    <p>Score</p>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon questions">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="questionCount">1/10</h3>
+                    <p>Questions</p>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon correct">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="correctCount">0</h3>
+                    <p>Correct</p>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon streak">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="streakCount">0</h3>
+                    <p>Streak</p>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon time">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="timeValue">120s</h3>
+                    <p>Time Left</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <!-- AI Sidebar -->
+            <div class="ai-sidebar">
+                <div class="ai-header">
+                    <div class="ai-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="ai-info">
+                        <h3>AI QuizMaster</h3>
+                        <p>Your knowledge companion</p>
+                    </div>
+                </div>
+                
+                <div class="ai-message-container">
+                    <div class="ai-message" id="aiMessage">
+                        Welcome to Mind Matrix! I'll guide you through 10 challenging questions. Let's see how much you know!
+                    </div>
+                    
+                    <div class="ai-personality">
+                        <div class="personality-tag">Helpful</div>
+                        <div class="personality-tag">Encouraging</div>
+                        <div class="personality-tag">Knowledgeable</div>
+                        <div class="personality-tag">Fun</div>
+                    </div>
+                </div>
+                
+                <div class="stats-bar" style="margin-top: auto; padding: 15px; background: #F8F9FF;">
+                    <div style="text-align: center; width: 100%;">
+                        <h3 style="color: var(--primary); margin-bottom: 5px;">Game Stats</h3>
+                        <p style="color: #666; font-size: 0.9rem;">Best Streak: <span id="bestStreak">0</span> | Accuracy: <span id="accuracyRate">0%</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Container -->
+            <div class="question-container">
+                <div class="question-header">
+                    <div class="question-number">
+                        <i class="fas fa-hashtag"></i>
+                        <span id="questionNumber">Question 1</span>
+                    </div>
+                    <div class="question-category">
+                        <i class="fas fa-tag"></i>
+                        <span id="questionCategory">General Knowledge</span>
+                    </div>
+                </div>
+                
+                <div class="question-text" id="questionText">
+                    What is the chemical symbol for gold?
+                </div>
+                
+                <div class="options-container" id="optionsContainer">
+                    <!-- Options will be generated by JavaScript -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="hintBtn">
+                        <i class="fas fa-lightbulb"></i> Get Hint
+                    </button>
+                    <button class="btn btn-primary" id="submitBtn" disabled>
+                        <i class="fas fa-paper-plane"></i> Submit Answer
+                    </button>
+                    <button class="btn btn-secondary" id="nextBtn" style="display: none;">
+                        <i class="fas fa-arrow-right"></i> Next Question
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="feedbackContainer">
+                    <!-- Feedback will be shown here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Complete Screen -->
+        <div class="game-complete" id="gameComplete">
+            <div class="trophy-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2 class="result-title">Quiz Complete!</h2>
+            <div class="result-score" id="finalScore">0/100</div>
+            
+            <div class="result-details">
+                <div class="result-item">
+                    <div class="result-value" id="finalCorrect">0</div>
+                    <div class="result-label">Correct Answers</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value" id="finalAccuracy">0%</div>
+                    <div class="result-label">Accuracy</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value" id="finalStreak">0</div>
+                    <div class="result-label">Best Streak</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-value" id="finalTime">0s</div>
+                    <div class="result-label">Time Used</div>
+                </div>
+            </div>
+            
+            <p class="result-message" id="resultMessage">
+                You're a knowledge novice. Keep learning and try again!
+            </p>
+            
+            <button class="restart-btn" id="restartBtn">
+                <i class="fas fa-redo"></i> Play Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 100+ Questions Database
+        const questionDatabase = {
+            "General Knowledge": [
+                {
+                    question: "What is the chemical symbol for gold?",
+                    options: ["Go", "Gd", "Au", "Ag"],
+                    correctAnswer: 2,
+                    explanation: "Gold's chemical symbol is Au, derived from the Latin word 'aurum' meaning shining dawn.",
+                    hint: "Think about the Latin name for gold."
+                },
+                {
+                    question: "Which planet is known as the Red Planet?",
+                    options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                    correctAnswer: 1,
+                    explanation: "Mars is called the Red Planet due to iron oxide (rust) on its surface.",
+                    hint: "It's named after the Roman god of war."
+                },
+                {
+                    question: "What is the largest mammal in the world?",
+                    options: ["African Elephant", "Blue Whale", "Giraffe", "Polar Bear"],
+                    correctAnswer: 1,
+                    explanation: "The Blue Whale is the largest mammal, reaching up to 100 feet in length.",
+                    hint: "It lives in the ocean and is not a fish."
+                },
+                {
+                    question: "Which element has the atomic number 1?",
+                    options: ["Helium", "Hydrogen", "Oxygen", "Carbon"],
+                    correctAnswer: 1,
+                    explanation: "Hydrogen has atomic number 1, meaning it has one proton in its nucleus.",
+                    hint: "It's the lightest and most abundant element in the universe."
+                },
+                {
+                    question: "What is the capital of Japan?",
+                    options: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+                    correctAnswer: 2,
+                    explanation: "Tokyo is the capital and largest city of Japan.",
+                    hint: "It's a bustling metropolis known for technology and pop culture."
+                },
+                {
+                    question: "How many continents are there?",
+                    options: ["5", "6", "7", "8"],
+                    correctAnswer: 2,
+                    explanation: "There are 7 continents: Africa, Antarctica, Asia, Europe, North America, South America, and Australia.",
+                    hint: "The number is considered lucky in many cultures."
+                },
+                {
+                    question: "What is the hardest natural substance on Earth?",
+                    options: ["Gold", "Iron", "Diamond", "Platinum"],
+                    correctAnswer: 2,
+                    explanation: "Diamond is the hardest known natural material on Earth.",
+                    hint: "It's often used in engagement rings."
+                },
+                {
+                    question: "Which country is known as the Land of the Rising Sun?",
+                    options: ["China", "South Korea", "Japan", "Thailand"],
+                    correctAnswer: 2,
+                    explanation: "Japan is called the Land of the Rising Sun because it lies to the east of the Asian mainland.",
+                    hint: "Its flag features a red circle on a white background."
+                },
+                {
+                    question: "What is the smallest country in the world?",
+                    options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"],
+                    correctAnswer: 1,
+                    explanation: "Vatican City is the smallest country by both area and population.",
+                    hint: "It's the headquarters of the Roman Catholic Church."
+                },
+                {
+                    question: "Which gas do plants absorb during photosynthesis?",
+                    options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+                    correctAnswer: 2,
+                    explanation: "Plants absorb carbon dioxide and release oxygen during photosynthesis.",
+                    hint: "It's what humans and animals exhale."
+                }
+            ],
+            "Science & Technology": [
+                {
+                    question: "What does 'HTTP' stand for?",
+                    options: ["HyperText Transfer Protocol", "HighTech Transfer Process", "Hyper Transfer Text Protocol", "High Transfer Text Process"],
+                    correctAnswer: 0,
+                    explanation: "HTTP stands for HyperText Transfer Protocol, the foundation of data communication for the World Wide Web.",
+                    hint: "It's the protocol used when you visit websites."
+                },
+                {
+                    question: "What is the speed of light in vacuum?",
+                    options: ["300,000 km/s", "150,000 km/s", "500,000 km/s", "1,000,000 km/s"],
+                    correctAnswer: 0,
+                    explanation: "The speed of light in vacuum is approximately 300,000 kilometers per second.",
+                    hint: "Einstein's theory of relativity is based on this constant."
+                },
+                {
+                    question: "Which programming language is known as the language of the web?",
+                    options: ["Python", "Java", "C++", "JavaScript"],
+                    correctAnswer: 3,
+                    explanation: "JavaScript is the primary language for web development and runs in browsers.",
+                    hint: "It shares part of its name with another programming language."
+                },
+                {
+                    question: "What does CPU stand for?",
+                    options: ["Central Processing Unit", "Computer Processing Unit", "Central Program Unit", "Computer Program Unit"],
+                    correctAnswer: 0,
+                    explanation: "CPU stands for Central Processing Unit, the primary component of a computer that performs most processing.",
+                    hint: "It's often called the 'brain' of the computer."
+                },
+                {
+                    question: "Which planet has the most moons?",
+                    options: ["Jupiter", "Saturn", "Uranus", "Neptune"],
+                    correctAnswer: 1,
+                    explanation: "Saturn has the most moons with over 80 confirmed natural satellites.",
+                    hint: "This planet is famous for its rings."
+                },
+                {
+                    question: "What is the main component of the Sun?",
+                    options: ["Helium", "Oxygen", "Hydrogen", "Carbon"],
+                    correctAnswer: 2,
+                    explanation: "The Sun is primarily composed of hydrogen (about 74%) and helium (about 24%).",
+                    hint: "It's the lightest and most abundant element in the universe."
+                },
+                {
+                    question: "Which company developed the iPhone?",
+                    options: ["Microsoft", "Google", "Apple", "Samsung"],
+                    correctAnswer: 2,
+                    explanation: "Apple Inc. developed and released the first iPhone in 2007.",
+                    hint: "The company's logo is a bitten apple."
+                },
+                {
+                    question: "What does DNA stand for?",
+                    options: ["Deoxyribonucleic Acid", "Dinucleic Acid", "Deoxyribose Acid", "Dinitrogen Acid"],
+                    correctAnswer: 0,
+                    explanation: "DNA stands for Deoxyribonucleic Acid, the molecule that carries genetic instructions.",
+                    hint: "It has a double-helix structure discovered by Watson and Crick."
+                },
+                {
+                    question: "Which year was the first iPhone released?",
+                    options: ["2005", "2007", "2009", "2010"],
+                    correctAnswer: 1,
+                    explanation: "The first iPhone was announced in January 2007 and released in June 2007.",
+                    hint: "It was a revolutionary touchscreen smartphone."
+                },
+                {
+                    question: "What is the largest planet in our solar system?",
+                    options: ["Earth", "Saturn", "Jupiter", "Neptune"],
+                    correctAnswer: 2,
+                    explanation: "Jupiter is the largest planet, with a mass more than twice that of all other planets combined.",
+                    hint: "It has a famous storm called the Great Red Spot."
+                }
+            ],
+            "History & Geography": [
+                {
+                    question: "Which year did World War II end?",
+                    options: ["1943", "1945", "1947", "1950"],
+                    correctAnswer: 1,
+                    explanation: "World War II ended in 1945 after the surrender of Nazi Germany and Japan.",
+                    hint: "The war ended in the mid-1940s."
+                },
+                {
+                    question: "What is the largest ocean on Earth?",
+                    options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                    correctAnswer: 3,
+                    explanation: "The Pacific Ocean is the largest and deepest ocean, covering about 63 million square miles.",
+                    hint: "It shares its name with a state of calmness."
+                },
+                {
+                    question: "Who was the first president of the United States?",
+                    options: ["Thomas Jefferson", "Abraham Lincoln", "George Washington", "John Adams"],
+                    correctAnswer: 2,
+                    explanation: "George Washington was the first president, serving from 1789 to 1797.",
+                    hint: "His face appears on the one-dollar bill and quarter."
+                },
+                {
+                    question: "Which country gifted the Statue of Liberty to the United States?",
+                    options: ["United Kingdom", "France", "Spain", "Germany"],
+                    correctAnswer: 1,
+                    explanation: "France gifted the Statue of Liberty to the United States in 1886.",
+                    hint: "The country is also known for the Eiffel Tower."
+                },
+                {
+                    question: "What is the longest river in the world?",
+                    options: ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"],
+                    correctAnswer: 1,
+                    explanation: "The Nile River is the longest river in the world at approximately 4,135 miles.",
+                    hint: "It flows through northeastern Africa."
+                },
+                {
+                    question: "Which ancient civilization built the pyramids of Giza?",
+                    options: ["Romans", "Greeks", "Egyptians", "Mayans"],
+                    correctAnswer: 2,
+                    explanation: "The ancient Egyptians built the pyramids of Giza as tombs for pharaohs.",
+                    hint: "They were also known for mummification."
+                },
+                {
+                    question: "Who discovered America in 1492?",
+                    options: ["Vasco da Gama", "Christopher Columbus", "Ferdinand Magellan", "Marco Polo"],
+                    correctAnswer: 1,
+                    explanation: "Christopher Columbus reached the Americas in 1492 while searching for a route to Asia.",
+                    hint: "He made four voyages across the Atlantic Ocean."
+                },
+                {
+                    question: "Which country has the largest population?",
+                    options: ["India", "United States", "China", "Indonesia"],
+                    correctAnswer: 2,
+                    explanation: "China has the largest population with over 1.4 billion people.",
+                    hint: "It's also known for the Great Wall."
+                },
+                {
+                    question: "What was the name of the ship that brought the Pilgrims to America in 1620?",
+                    options: ["Santa Maria", "Mayflower", "Endeavour", "Victory"],
+                    correctAnswer: 1,
+                    explanation: "The Mayflower brought the Pilgrims from England to Plymouth, Massachusetts in 1620.",
+                    hint: "The journey resulted in the first Thanksgiving celebration."
+                },
+                {
+                    question: "Which empire was ruled by Julius Caesar?",
+                    options: ["Greek Empire", "Roman Empire", "Ottoman Empire", "Mongol Empire"],
+                    correctAnswer: 1,
+                    explanation: "Julius Caesar was a Roman general and statesman who played a critical role in the rise of the Roman Empire.",
+                    hint: "He was famously assassinated on the Ides of March."
+                }
+            ],
+            "Mathematics & Logic": [
+                {
+                    question: "What is the value of Pi (π) rounded to two decimal places?",
+                    options: ["3.12", "3.14", "3.16", "3.18"],
+                    correctAnswer: 1,
+                    explanation: "Pi (π) is approximately 3.14159, so rounded to two decimal places it's 3.14.",
+                    hint: "It's a mathematical constant used in circles."
+                },
+                {
+                    question: "What is 15 squared?",
+                    options: ["225", "250", "275", "300"],
+                    correctAnswer: 0,
+                    explanation: "15 squared (15 × 15) equals 225.",
+                    hint: "Multiply 15 by itself."
+                },
+                {
+                    question: "How many degrees are in a right angle?",
+                    options: ["45°", "90°", "180°", "360°"],
+                    correctAnswer: 1,
+                    explanation: "A right angle measures exactly 90 degrees.",
+                    hint: "It's the angle formed by perpendicular lines."
+                },
+                {
+                    question: "What is the square root of 144?",
+                    options: ["10", "11", "12", "13"],
+                    correctAnswer: 2,
+                    explanation: "The square root of 144 is 12, because 12 × 12 = 144.",
+                    hint: "It's a dozen."
+                },
+                {
+                    question: "If a triangle has angles of 60° and 70°, what is the third angle?",
+                    options: ["40°", "50°", "60°", "70°"],
+                    correctAnswer: 1,
+                    explanation: "The sum of angles in a triangle is 180°, so 180 - (60 + 70) = 50°.",
+                    hint: "All triangle angles add up to 180 degrees."
+                },
+                {
+                    question: "What is 25% of 200?",
+                    options: ["25", "50", "75", "100"],
+                    correctAnswer: 1,
+                    explanation: "25% of 200 is 50, because 200 × 0.25 = 50.",
+                    hint: "25% is one quarter of a whole."
+                },
+                {
+                    question: "How many sides does a hexagon have?",
+                    options: ["5", "6", "7", "8"],
+                    correctAnswer: 1,
+                    explanation: "A hexagon has 6 sides and 6 angles.",
+                    hint: "Think of honeycomb cells."
+                },
+                {
+                    question: "What is the next number in the sequence: 2, 4, 8, 16, ...?",
+                    options: ["24", "32", "48", "64"],
+                    correctAnswer: 1,
+                    explanation: "Each number is multiplied by 2, so 16 × 2 = 32.",
+                    hint: "It's a geometric progression with a common ratio of 2."
+                },
+                {
+                    question: "What is 7 × 8?",
+                    options: ["48", "54", "56", "64"],
+                    correctAnswer: 2,
+                    explanation: "7 × 8 = 56, a common multiplication fact.",
+                    hint: "It's between 50 and 60."
+                },
+                {
+                    question: "How many milliliters are in a liter?",
+                    options: ["100", "500", "1000", "5000"],
+                    correctAnswer: 2,
+                    explanation: "There are 1000 milliliters in a liter.",
+                    hint: "The metric system is based on powers of 10."
+                }
+            ],
+            "Literature & Arts": [
+                {
+                    question: "Who wrote 'Romeo and Juliet'?",
+                    options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                    correctAnswer: 1,
+                    explanation: "William Shakespeare wrote the tragic love story 'Romeo and Juliet' in the late 16th century.",
+                    hint: "He's considered the greatest writer in the English language."
+                },
+                {
+                    question: "Who painted the Mona Lisa?",
+                    options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+                    correctAnswer: 1,
+                    explanation: "Leonardo da Vinci painted the Mona Lisa between 1503 and 1506 during the Renaissance period.",
+                    hint: "He was also an inventor and scientist."
+                },
+                {
+                    question: "Which author wrote 'Harry Potter'?",
+                    options: ["J.R.R. Tolkien", "J.K. Rowling", "George R.R. Martin", "Stephen King"],
+                    correctAnswer: 1,
+                    explanation: "J.K. Rowling wrote the Harry Potter series, which has sold over 500 million copies worldwide.",
+                    hint: "The author's initials are J.K."
+                },
+                {
+                    question: "What is the main character's name in 'Moby Dick'?",
+                    options: ["Captain Ahab", "Ishmael", "Queequeg", "Starbuck"],
+                    correctAnswer: 1,
+                    explanation: "Ishmael is the narrator and main character in Herman Melville's 'Moby Dick'.",
+                    hint: "The novel begins with the line 'Call me Ishmael.'"
+                },
+                {
+                    question: "Which artist cut off part of his own ear?",
+                    options: ["Pablo Picasso", "Claude Monet", "Vincent van Gogh", "Salvador Dali"],
+                    correctAnswer: 2,
+                    explanation: "Vincent van Gogh famously cut off part of his left ear during a mental health crisis.",
+                    hint: "He painted 'Starry Night'."
+                },
+                {
+                    question: "Who wrote '1984'?",
+                    options: ["George Orwell", "Aldous Huxley", "Ray Bradbury", "H.G. Wells"],
+                    correctAnswer: 0,
+                    explanation: "George Orwell wrote '1984', a dystopian novel about totalitarian surveillance.",
+                    hint: "He also wrote 'Animal Farm'."
+                },
+                {
+                    question: "Which play features the characters Rosencrantz and Guildenstern?",
+                    options: ["Macbeth", "Othello", "Hamlet", "King Lear"],
+                    correctAnswer: 2,
+                    explanation: "Rosencrantz and Guildenstern are characters in Shakespeare's 'Hamlet'.",
+                    hint: "They are childhood friends of the protagonist."
+                },
+                {
+                    question: "Who composed the 'Moonlight Sonata'?",
+                    options: ["Wolfgang Amadeus Mozart", "Johann Sebastian Bach", "Ludwig van Beethoven", "Frédéric Chopin"],
+                    correctAnswer: 2,
+                    explanation: "Ludwig van Beethoven composed the 'Moonlight Sonata' (Piano Sonata No. 14) in 1801.",
+                    hint: "He continued composing even after becoming deaf."
+                },
+                {
+                    question: "Which novel begins with 'It was the best of times, it was the worst of times'?",
+                    options: ["War and Peace", "A Tale of Two Cities", "Les Misérables", "Great Expectations"],
+                    correctAnswer: 1,
+                    explanation: "Charles Dickens' 'A Tale of Two Cities' begins with this famous line.",
+                    hint: "The title refers to London and Paris during the French Revolution."
+                },
+                {
+                    question: "Who painted 'The Starry Night'?",
+                    options: ["Claude Monet", "Pablo Picasso", "Vincent van Gogh", "Rembrandt"],
+                    correctAnswer: 2,
+                    explanation: "Vincent van Gogh painted 'The Starry Night' in 1889 while in an asylum.",
+                    hint: "The artist is known for his post-impressionist style and mental health struggles."
+                }
+            ],
+            "Sports & Entertainment": [
+                {
+                    question: "How many players are on a standard soccer team on the field?",
+                    options: ["9", "10", "11", "12"],
+                    correctAnswer: 2,
+                    explanation: "A standard soccer team has 11 players on the field, including one goalkeeper.",
+                    hint: "It's one more than a cricket team."
+                },
+                {
+                    question: "Which country won the 2018 FIFA World Cup?",
+                    options: ["Germany", "Brazil", "France", "Argentina"],
+                    correctAnswer: 2,
+                    explanation: "France won the 2018 FIFA World Cup by defeating Croatia 4-2 in the final.",
+                    hint: "The team's colors are blue, white, and red."
+                },
+                {
+                    question: "Who holds the record for most Olympic gold medals?",
+                    options: ["Usain Bolt", "Carl Lewis", "Michael Phelps", "Mark Spitz"],
+                    correctAnswer: 2,
+                    explanation: "Michael Phelps holds the record with 23 Olympic gold medals in swimming.",
+                    hint: "He's an American swimmer."
+                },
+                {
+                    question: "Which movie won the first Academy Award for Best Picture in 1929?",
+                    options: ["Sunrise", "Wings", "The Jazz Singer", "All Quiet on the Western Front"],
+                    correctAnswer: 1,
+                    explanation: "'Wings' won the first Academy Award for Best Picture (then called Outstanding Picture) in 1929.",
+                    hint: "It's a silent war film about World War I pilots."
+                },
+                {
+                    question: "In which sport would you perform a 'slam dunk'?",
+                    options: ["Tennis", "Basketball", "Volleyball", "Soccer"],
+                    correctAnswer: 1,
+                    explanation: "A slam dunk is a basketball shot where a player jumps and powerfully throws the ball downward through the basket.",
+                    hint: "Michael Jordan was famous for this move."
+                },
+                {
+                    question: "Who directed the movie 'Jurassic Park'?",
+                    options: ["Steven Spielberg", "James Cameron", "George Lucas", "Peter Jackson"],
+                    correctAnswer: 0,
+                    explanation: "Steven Spielberg directed 'Jurassic Park', released in 1993.",
+                    hint: "He also directed 'E.T.' and 'Jaws'."
+                },
+                {
+                    question: "How many rounds are in a professional boxing match?",
+                    options: ["8", "10", "12", "15"],
+                    correctAnswer: 2,
+                    explanation: "Professional championship boxing matches typically consist of 12 rounds of 3 minutes each.",
+                    hint: "It's a dozen."
+                },
+                {
+                    question: "Which actor played Iron Man in the Marvel Cinematic Universe?",
+                    options: ["Chris Evans", "Robert Downey Jr.", "Chris Hemsworth", "Mark Ruffalo"],
+                    correctAnswer: 1,
+                    explanation: "Robert Downey Jr. played Tony Stark/Iron Man in the Marvel Cinematic Universe.",
+                    hint: "His character is a billionaire genius."
+                },
+                {
+                    question: "In tennis, what is a zero score called?",
+                    options: ["Nil", "Zero", "Love", "Null"],
+                    correctAnswer: 2,
+                    explanation: "In tennis, a score of zero is called 'love', possibly derived from the French word 'l'oeuf' (egg).",
+                    hint: "It's also a word for deep affection."
+                },
+                {
+                    question: "Which TV series features houses Stark, Lannister, and Targaryen?",
+                    options: ["The Crown", "Vikings", "Game of Thrones", "The Witcher"],
+                    correctAnswer: 2,
+                    explanation: "Game of Thrones features the noble houses Stark, Lannister, and Targaryen in the fictional continents of Westeros and Essos.",
+                    hint: "The series is based on 'A Song of Ice and Fire' books."
+                }
+            ],
+            "Biology & Medicine": [
+                {
+                    question: "What is the powerhouse of the cell?",
+                    options: ["Nucleus", "Ribosome", "Mitochondria", "Endoplasmic Reticulum"],
+                    correctAnswer: 2,
+                    explanation: "Mitochondria are often called the powerhouse of the cell because they generate most of the cell's supply of ATP.",
+                    hint: "It has its own DNA and produces energy."
+                },
+                {
+                    question: "How many bones are in the adult human body?",
+                    options: ["206", "256", "300", "150"],
+                    correctAnswer: 0,
+                    explanation: "The adult human body has 206 bones, though babies are born with about 300 bones that fuse together.",
+                    hint: "It's between 200 and 210."
+                },
+                {
+                    question: "Which blood type is known as the universal donor?",
+                    options: ["A", "B", "AB", "O negative"],
+                    correctAnswer: 3,
+                    explanation: "O negative blood is the universal donor because it can be transfused to patients of any blood type.",
+                    hint: "It's the absence of A and B antigens."
+                },
+                {
+                    question: "What is the largest organ in the human body?",
+                    options: ["Liver", "Brain", "Skin", "Lungs"],
+                    correctAnswer: 2,
+                    explanation: "The skin is the largest organ, accounting for about 15% of body weight.",
+                    hint: "It protects the body from the external environment."
+                },
+                {
+                    question: "Which part of the brain controls balance and coordination?",
+                    options: ["Cerebrum", "Cerebellum", "Brainstem", "Hypothalamus"],
+                    correctAnswer: 1,
+                    explanation: "The cerebellum controls balance, coordination, and fine muscle control.",
+                    hint: "Its name means 'little brain' in Latin."
+                },
+                {
+                    question: "What is the normal human body temperature in Celsius?",
+                    options: ["35°C", "36°C", "37°C", "38°C"],
+                    correctAnswer: 2,
+                    explanation: "Normal human body temperature is approximately 37°C (98.6°F).",
+                    hint: "It's close to 100°F."
+                },
+                {
+                    question: "Which vitamin is produced when skin is exposed to sunlight?",
+                    options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"],
+                    correctAnswer: 2,
+                    explanation: "Vitamin D is synthesized when skin is exposed to ultraviolet B (UVB) radiation from sunlight.",
+                    hint: "It's important for bone health."
+                },
+                {
+                    question: "What is the scientific name for the windpipe?",
+                    options: ["Esophagus", "Trachea", "Bronchus", "Larynx"],
+                    correctAnswer: 1,
+                    explanation: "The trachea, commonly called the windpipe, is the tube that connects the larynx to the bronchi of the lungs.",
+                    hint: "It has C-shaped cartilage rings to keep it open."
+                },
+                {
+                    question: "How many chambers does the human heart have?",
+                    options: ["2", "3", "4", "5"],
+                    correctAnswer: 2,
+                    explanation: "The human heart has four chambers: right atrium, right ventricle, left atrium, and left ventricle.",
+                    hint: "It's an even number."
+                },
+                {
+                    question: "Which organ produces insulin?",
+                    options: ["Liver", "Pancreas", "Kidney", "Stomach"],
+                    correctAnswer: 1,
+                    explanation: "The pancreas produces insulin, a hormone that regulates blood sugar levels.",
+                    hint: "It also produces digestive enzymes."
+                }
+            ],
+            "Food & Drink": [
+                {
+                    question: "Which country is known for inventing pizza?",
+                    options: ["United States", "France", "Italy", "Greece"],
+                    correctAnswer: 2,
+                    explanation: "Modern pizza was invented in Naples, Italy in the 18th or early 19th century.",
+                    hint: "The country is shaped like a boot."
+                },
+                {
+                    question: "What is the main ingredient in guacamole?",
+                    options: ["Tomato", "Avocado", "Pepper", "Onion"],
+                    correctAnswer: 1,
+                    explanation: "Guacamole is primarily made from mashed avocado, along with lime juice, onions, and other seasonings.",
+                    hint: "The main ingredient is a green fruit with a large pit."
+                },
+                {
+                    question: "Which beverage is known as 'champagne' when it comes from the Champagne region of France?",
+                    options: ["White Wine", "Red Wine", "Sparkling Wine", "Rosé Wine"],
+                    correctAnswer: 2,
+                    explanation: "Champagne is a specific type of sparkling wine that comes from the Champagne region of France.",
+                    hint: "It's associated with celebrations and popping corks."
+                },
+                {
+                    question: "What is the primary ingredient in traditional Japanese miso soup?",
+                    options: ["Seaweed", "Tofu", "Miso Paste", "Fish Broth"],
+                    correctAnswer: 2,
+                    explanation: "Miso soup is made from miso paste (fermented soybeans), dashi broth, and various additions like tofu and seaweed.",
+                    hint: "The soup is named after this fermented ingredient."
+                },
+                {
+                    question: "Which nut is used to make marzipan?",
+                    options: ["Peanut", "Almond", "Walnut", "Hazelnut"],
+                    correctAnswer: 1,
+                    explanation: "Marzipan is made from ground almonds, sugar, and sometimes egg white.",
+                    hint: "These nuts are often associated with California."
+                },
+                {
+                    question: "What is the main ingredient in hummus?",
+                    options: ["Lentils", "Chickpeas", "Eggplant", "Yogurt"],
+                    correctAnswer: 1,
+                    explanation: "Hummus is made from cooked, mashed chickpeas blended with tahini, olive oil, lemon juice, and garlic.",
+                    hint: "Also called garbanzo beans."
+                },
+                {
+                    question: "Which country produces the most coffee in the world?",
+                    options: ["Colombia", "Brazil", "Vietnam", "Ethiopia"],
+                    correctAnswer: 1,
+                    explanation: "Brazil is the world's largest coffee producer, responsible for about one-third of all coffee.",
+                    hint: "It's the largest country in South America."
+                },
+                {
+                    question: "What type of pasta name means 'little tongues' in Italian?",
+                    options: ["Fettuccine", "Linguine", "Penne", "Farfalle"],
+                    correctAnswer: 1,
+                    explanation: "Linguine means 'little tongues' in Italian, referring to its long, flat shape.",
+                    hint: "It's similar to spaghetti but flattened."
+                },
+                {
+                    question: "Which fruit is known as the 'king of fruits' in Southeast Asia?",
+                    options: ["Mango", "Durian", "Jackfruit", "Rambutan"],
+                    correctAnswer: 1,
+                    explanation: "Durian is called the 'king of fruits' in Southeast Asia, known for its strong odor and unique taste.",
+                    hint: "It's famous for its strong smell that some find unpleasant."
+                },
+                {
+                    question: "What is the primary grain used in making traditional Japanese sake?",
+                    options: ["Wheat", "Barley", "Rice", "Corn"],
+                    correctAnswer: 2,
+                    explanation: "Sake is a Japanese rice wine made by fermenting rice that has been polished to remove the bran.",
+                    hint: "It's the same grain used in sushi."
+                }
+            ],
+            "Pop Culture": [
+                {
+                    question: "Which social media platform is known for its 280-character limit?",
+                    options: ["Facebook", "Instagram", "Twitter", "TikTok"],
+                    correctAnswer: 2,
+                    explanation: "Twitter is known for its character limit, which was originally 140 characters and expanded to 280 in 2017.",
+                    hint: "Posts on this platform are called 'tweets'."
+                },
+                {
+                    question: "Who is known as the 'Queen of Pop'?",
+                    options: ["Beyoncé", "Madonna", "Lady Gaga", "Taylor Swift"],
+                    correctAnswer: 1,
+                    explanation: "Madonna is often called the 'Queen of Pop' due to her influence and longevity in the pop music industry.",
+                    hint: "She had hits like 'Like a Virgin' and 'Material Girl'."
+                },
+                {
+                    question: "Which video game features characters named Mario and Luigi?",
+                    options: ["Sonic the Hedgehog", "Super Mario Bros.", "The Legend of Zelda", "Pokémon"],
+                    correctAnswer: 1,
+                    explanation: "Mario and Luigi are the main characters in Nintendo's Super Mario Bros. franchise.",
+                    hint: "They are Italian plumbers in the Mushroom Kingdom."
+                },
+                {
+                    question: "What is the highest-grossing film of all time?",
+                    options: ["Titanic", "Avengers: Endgame", "Avatar", "Star Wars: The Force Awakens"],
+                    correctAnswer: 2,
+                    explanation: "Avatar (2009) is the highest-grossing film of all time, earning over $2.8 billion worldwide.",
+                    hint: "It was directed by James Cameron and features blue-skinned aliens."
+                },
+                {
+                    question: "Which singer is known as the 'King of Pop'?",
+                    options: ["Elvis Presley", "Michael Jackson", "Prince", "Justin Timberlake"],
+                    correctAnswer: 1,
+                    explanation: "Michael Jackson is known as the 'King of Pop' for his revolutionary contributions to music and dance.",
+                    hint: "He performed the 'moonwalk' dance move."
+                },
+                {
+                    question: "Which TV show is set in the fictional town of Hawkins, Indiana?",
+                    options: ["The Office", "Stranger Things", "Riverdale", "Twin Peaks"],
+                    correctAnswer: 1,
+                    explanation: "Stranger Things is set in the fictional town of Hawkins, Indiana in the 1980s.",
+                    hint: "The show features supernatural events and a girl with psychokinetic abilities."
+                },
+                {
+                    question: "Which K-pop group released the hit song 'Dynamite' in 2020?",
+                    options: ["BLACKPINK", "BTS", "EXO", "TWICE"],
+                    correctAnswer: 1,
+                    explanation: "BTS released 'Dynamite' in 2020, their first all-English song that became a global hit.",
+                    hint: "They're a South Korean boy band with seven members."
+                },
+                {
+                    question: "Who played Jack Dawson in the movie 'Titanic'?",
+                    options: ["Brad Pitt", "Johnny Depp", "Leonardo DiCaprio", "Tom Cruise"],
+                    correctAnswer: 2,
+                    explanation: "Leonardo DiCaprio played Jack Dawson, the male lead in James Cameron's 'Titanic' (1997).",
+                    hint: "He famously said 'I'm king of the world!' in the film."
+                },
+                {
+                    question: "Which social media app is known for short-form video content?",
+                    options: ["Snapchat", "TikTok", "Instagram Reels", "YouTube Shorts"],
+                    correctAnswer: 1,
+                    explanation: "TikTok is a social media platform focused on short-form video content, typically 15-60 seconds long.",
+                    hint: "It was originally called Musical.ly."
+                },
+                {
+                    question: "Which actress played Hermione Granger in the Harry Potter films?",
+                    options: ["Emma Watson", "Emma Roberts", "Emma Stone", "Emily Blunt"],
+                    correctAnswer: 0,
+                    explanation: "Emma Watson played Hermione Granger in all eight Harry Potter films from 2001 to 2011.",
+                    hint: "She's also known for her role in Disney's 'Beauty and the Beast' (2017)."
+                }
+            ],
+            "Random Facts": [
+                {
+                    question: "How many dots are on a standard die?",
+                    options: ["18", "21", "24", "27"],
+                    correctAnswer: 1,
+                    explanation: "A standard die has 21 dots (1+2+3+4+5+6 = 21).",
+                    hint: "Opposite sides always add up to 7."
+                },
+                {
+                    question: "What is the only even prime number?",
+                    options: ["0", "2", "4", "8"],
+                    correctAnswer: 1,
+                    explanation: "2 is the only even prime number, as it's only divisible by 1 and itself.",
+                    hint: "It's the smallest prime number."
+                },
+                {
+                    question: "Which animal can't jump?",
+                    options: ["Elephant", "Rhino", "Hippo", "All of the above"],
+                    correctAnswer: 3,
+                    explanation: "Elephants, rhinos, and hippos are all too heavy to jump off the ground.",
+                    hint: "These are some of the largest land animals."
+                },
+                {
+                    question: "How many hearts does an octopus have?",
+                    options: ["1", "2", "3", "4"],
+                    correctAnswer: 2,
+                    explanation: "An octopus has three hearts: two pump blood to the gills, and one pumps it to the rest of the body.",
+                    hint: "It's more than humans but less than some fictional creatures."
+                },
+                {
+                    question: "What is the most common blood type among humans?",
+                    options: ["A+", "B+", "O+", "AB+"],
+                    correctAnswer: 2,
+                    explanation: "O+ is the most common blood type, found in about 38% of the population.",
+                    hint: "It's the universal donor for positive blood types."
+                },
+                {
+                    question: "Which planet spins on its side?",
+                    options: ["Venus", "Uranus", "Neptune", "Pluto"],
+                    correctAnswer: 1,
+                    explanation: "Uranus rotates on its side, with its axis tilted about 98 degrees relative to its orbit.",
+                    hint: "It's the seventh planet from the Sun."
+                },
+                {
+                    question: "What is the only mammal capable of true flight?",
+                    options: ["Flying Squirrel", "Bat", "Sugar Glider", "Colugo"],
+                    correctAnswer: 1,
+                    explanation: "Bats are the only mammals capable of sustained flight (not just gliding).",
+                    hint: "They use echolocation to navigate in the dark."
+                },
+                {
+                    question: "Which language has the most words?",
+                    options: ["Chinese", "English", "Arabic", "Russian"],
+                    correctAnswer: 1,
+                    explanation: "English has the largest vocabulary with over 200,000 words in common use (and over 1 million total if technical terms are included).",
+                    hint: "It's considered a global lingua franca."
+                },
+                {
+                    question: "How many time zones are there in Russia?",
+                    options: ["5", "7", "9", "11"],
+                    correctAnswer: 3,
+                    explanation: "Russia spans 11 time zones, the most of any country in the world.",
+                    hint: "It's the largest country by area."
+                },
+                {
+                    question: "What is the most common letter in the English language?",
+                    options: ["A", "E", "T", "S"],
+                    correctAnswer: 1,
+                    explanation: "E is the most common letter in English, appearing in about 11% of all words.",
+                    hint: "It's a vowel that appears in the word 'the'."
+                }
+            ]
+        };
+
+        // Game state
+        let currentQuestion = 0;
+        let score = 0;
+        let correctAnswers = 0;
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let selectedOption = null;
+        let gameCompleted = false;
+        let timeLeft = 60;
+        let timerInterval = null;
+        let selectedCategory = "General Knowledge";
+        let questions = [];
+        let totalQuestions = 10;
+
+        // DOM elements
+        const questionNumberEl = document.getElementById('questionNumber');
+        const questionCategoryEl = document.getElementById('questionCategory');
+        const questionTextEl = document.getElementById('questionText');
+        const optionsContainerEl = document.getElementById('optionsContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const feedbackContainerEl = document.getElementById('feedbackContainer');
+        const scoreValueEl = document.getElementById('scoreValue');
+        const questionCountEl = document.getElementById('questionCount');
+        const correctCountEl = document.getElementById('correctCount');
+        const streakCountEl = document.getElementById('streakCount');
+        const aiMessageEl = document.getElementById('aiMessage');
+        const progressFillEl = document.getElementById('progressFill');
+        const gameCompleteEl = document.getElementById('gameComplete');
+        const finalScoreEl = document.getElementById('finalScore');
+        const resultMessageEl = document.getElementById('resultMessage');
+        const restartBtn = document.getElementById('restartBtn');
+        const currentQuestionNumEl = document.getElementById('currentQuestionNum');
+        const totalQuestionsEl = document.getElementById('totalQuestions');
+        const progressPercentEl = document.getElementById('progressPercent');
+        const timeValueEl = document.getElementById('timeValue');
+        const bestStreakEl = document.getElementById('bestStreak');
+        const accuracyRateEl = document.getElementById('accuracyRate');
+        const categorySelectorEl = document.getElementById('categorySelector');
+        const finalCorrectEl = document.getElementById('finalCorrect');
+        const finalAccuracyEl = document.getElementById('finalAccuracy');
+        const finalStreakEl = document.getElementById('finalStreak');
+        const finalTimeEl = document.getElementById('finalTime');
+
+        // AI messages based on performance
+        const aiMessages = {
+            intro: "Welcome to Mind Matrix! I'll guide you through 10 challenging questions. Let's see how much you know!",
+            correct: ["Excellent! You're really smart!", "Well done! You know your stuff!", "Perfect! You're on fire!", "Brilliant! That's the right answer!", "Outstanding! You nailed it!", "Fantastic! Keep up the great work!"],
+            incorrect: ["Good try! The correct answer was: ", "Not quite! The right answer is: ", "Almost! Actually, it's: ", "Good effort! The correct answer is: ", "Close! The correct answer was: ", "Nice try! Actually: "],
+            hint: "Here's a hint: ",
+            streak: ["Amazing streak! Keep going!", "You're unstoppable!", "On a roll! Don't stop now!", "Fantastic! That's a great streak!", "Incredible! You're crushing it!", "🔥 Hot streak! Keep it up!"],
+            final: {
+                low: "You're a knowledge novice. Keep learning and try again! You'll do better next time!",
+                medium: "Good job! You have decent knowledge across topics. With a bit more practice, you'll be a trivia master!",
+                high: "Excellent! You're a true trivia master! Your knowledge is impressive across many subjects.",
+                perfect: "Perfect score! You're a genius! Teach me your ways! Are you sure you're not an AI yourself?"
+            }
+        };
+
+        // Initialize the game
+        function initGame() {
+            currentQuestion = 0;
+            score = 0;
+            correctAnswers = 0;
+            currentStreak = 0;
+            bestStreak = 0;
+            selectedOption = null;
+            gameCompleted = false;
+            timeLeft = 60;
+            
+            // Stop any existing timer
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Generate questions from selected category
+            generateQuestions();
+            
+            updateStats();
+            loadQuestion(currentQuestion);
+            updateProgress();
+            startTimer();
+            gameCompleteEl.classList.remove('show');
+            
+            // Set AI message
+            aiMessageEl.textContent = aiMessages.intro;
+        }
+
+        // Generate questions from the selected category
+        function generateQuestions() {
+            questions = [];
+            const categoryQuestions = questionDatabase[selectedCategory];
+            
+            // Shuffle and select questions
+            const shuffled = [...categoryQuestions].sort(() => Math.random() - 0.5);
+            questions = shuffled.slice(0, totalQuestions);
+        }
+
+        // Create category selector
+        function createCategorySelector() {
+            const categories = Object.keys(questionDatabase);
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = category;
+                if (category === selectedCategory) {
+                    button.classList.add('active');
+                }
+                
+                button.addEventListener('click', () => {
+                    // Update active button
+                    document.querySelectorAll('.category-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    
+                    // Update selected category
+                    selectedCategory = category;
+                    
+                    // Restart game with new category
+                    initGame();
+                });
+                
+                categorySelectorEl.appendChild(button);
+            });
+        }
+
+        // Load a question
+        function loadQuestion(index) {
+            const question = questions[index];
+            
+            // Update question info
+            questionNumberEl.textContent = `Question ${index + 1}`;
+            questionCategoryEl.textContent = selectedCategory;
+            questionTextEl.textContent = question.question;
+            
+            // Clear options
+            optionsContainerEl.innerHTML = '';
+            
+            // Create options
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            
+            question.options.forEach((option, i) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                optionEl.dataset.index = i;
+                
+                optionEl.innerHTML = `
+                    <div class="option-letter">${optionLetters[i]}</div>
+                    <div class="option-text">${option}</div>
+                    <div class="option-check"><i class="fas fa-check"></i></div>
+                `;
+                
+                optionEl.addEventListener('click', () => selectOption(i, optionEl));
+                optionsContainerEl.appendChild(optionEl);
+            });
+            
+            // Reset buttons and feedback
+            submitBtn.disabled = true;
+            submitBtn.style.display = 'flex';
+            nextBtn.style.display = 'none';
+            feedbackContainerEl.classList.remove('show');
+            selectedOption = null;
+            
+            // Update hint button
+            hintBtn.onclick = () => showHint(question.hint);
+            hintBtn.disabled = false;
+        }
+
+        // Select an option
+        function selectOption(index, optionEl) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            optionEl.classList.add('selected');
+            selectedOption = index;
+            
+            // Enable submit button
+            submitBtn.disabled = false;
+        }
+
+        // Submit answer
+        function submitAnswer() {
+            if (selectedOption === null) return;
+            
+            const question = questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            const isCorrect = selectedOption === question.correctAnswer;
+            
+            // Mark correct/incorrect options
+            options.forEach((option, i) => {
+                if (i === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (i === selectedOption && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none'; // Disable further clicks
+            });
+            
+            // Update score and stats
+            if (isCorrect) {
+                score += 10;
+                correctAnswers++;
+                currentStreak++;
+                if (currentStreak > bestStreak) bestStreak = currentStreak;
+                
+                // AI message for correct answer
+                const randomMsg = aiMessages.correct[Math.floor(Math.random() * aiMessages.correct.length)];
+                aiMessageEl.textContent = randomMsg;
+                
+                // If streak is good, add streak message
+                if (currentStreak >= 3) {
+                    const streakMsg = aiMessages.streak[Math.floor(Math.random() * aiMessages.streak.length)];
+                    aiMessageEl.textContent = streakMsg;
+                }
+            } else {
+                currentStreak = 0;
+                
+                // AI message for incorrect answer
+                const randomMsg = aiMessages.incorrect[Math.floor(Math.random() * aiMessages.incorrect.length)];
+                aiMessageEl.textContent = randomMsg + question.options[question.correctAnswer];
+            }
+            
+            // Show feedback
+            showFeedback(isCorrect, question.explanation);
+            
+            // Update stats
+            updateStats();
+            
+            // Change buttons
+            submitBtn.style.display = 'none';
+            nextBtn.style.display = 'flex';
+            
+            // Disable hint button
+            hintBtn.onclick = null;
+            hintBtn.disabled = true;
+            
+            // Stop timer for this question
+            clearInterval(timerInterval);
+        }
+
+        // Show feedback
+        function showFeedback(isCorrect, explanation) {
+            feedbackContainerEl.innerHTML = `
+                <div class="feedback-header">
+                    <div class="feedback-icon ${isCorrect ? 'correct' : 'incorrect'}">
+                        <i class="fas fa-${isCorrect ? 'check' : 'times'}"></i>
+                    </div>
+                    <div class="feedback-title">${isCorrect ? 'Correct!' : 'Incorrect'}</div>
+                </div>
+                <div class="feedback-text">${explanation}</div>
+            `;
+            
+            feedbackContainerEl.classList.add('show');
+        }
+
+        // Show hint
+        function showHint(hintText) {
+            aiMessageEl.textContent = aiMessages.hint + hintText;
+            
+            // Disable hint button for 5 seconds
+            hintBtn.disabled = true;
+            setTimeout(() => {
+                if (!gameCompleted) {
+                    hintBtn.disabled = false;
+                }
+            }, 5000);
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion(currentQuestion);
+                updateProgress();
+                // Reset timer for next question
+                timeLeft = 60;
+                timeValueEl.textContent = `${timeLeft}s`;
+                startTimer();
+            } else {
+                endGame();
+            }
+        }
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timeValueEl.textContent = `${timeLeft}s`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Auto-submit if time runs out
+                    if (selectedOption !== null) {
+                        submitAnswer();
+                    } else {
+                        // If no answer selected, mark as incorrect and move on
+                        aiMessageEl.textContent = "Time's up! Moving to next question.";
+                        setTimeout(() => {
+                            nextQuestion();
+                        }, 1500);
+                    }
+                }
+            }, 1000);
+        }
+
+        // End game
+        function endGame() {
+            gameCompleted = true;
+            clearInterval(timerInterval);
+            
+            // Calculate final score percentage
+            const percentage = Math.round((score / (questions.length * 10)) * 100);
+            finalScoreEl.textContent = `${score}/${questions.length * 10}`;
+            
+            // Determine result message
+            let message;
+            if (percentage >= 90) {
+                message = aiMessages.final.perfect;
+            } else if (percentage >= 70) {
+                message = aiMessages.final.high;
+            } else if (percentage >= 50) {
+                message = aiMessages.final.medium;
+            } else {
+                message = aiMessages.final.low;
+            }
+            
+            // Update result details
+            finalCorrectEl.textContent = correctAnswers;
+            finalAccuracyEl.textContent = `${percentage}%`;
+            finalStreakEl.textContent = bestStreak;
+            finalTimeEl.textContent = `${60 - timeLeft}s`;
+            
+            resultMessageEl.textContent = message;
+            
+            // Show game complete screen
+            gameCompleteEl.classList.add('show');
+            
+            // Final AI message
+            aiMessageEl.textContent = `Quiz complete! Your final score: ${score}/${questions.length * 10}. ${message}`;
+        }
+
+        // Update stats
+        function updateStats() {
+            scoreValueEl.textContent = score;
+            questionCountEl.textContent = `${currentQuestion + 1}/${questions.length}`;
+            correctCountEl.textContent = correctAnswers;
+            streakCountEl.textContent = currentStreak;
+            bestStreakEl.textContent = bestStreak;
+            
+            // Calculate accuracy
+            const accuracy = currentQuestion > 0 ? Math.round((correctAnswers / currentQuestion) * 100) : 0;
+            accuracyRateEl.textContent = `${accuracy}%`;
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressFillEl.style.width = `${progress}%`;
+            currentQuestionNumEl.textContent = currentQuestion + 1;
+            totalQuestionsEl.textContent = questions.length;
+            progressPercentEl.textContent = `${Math.round(progress)}%`;
+        }
+
+        // Event listeners
+        submitBtn.addEventListener('click', submitAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartBtn.addEventListener('click', initGame);
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (gameCompleted) return;
+            
+            // Number keys 1-4 for options
+            if (e.key >= '1' && e.key <= '4') {
+                const index = parseInt(e.key) - 1;
+                const optionEl = document.querySelectorAll('.option')[index];
+                if (optionEl) {
+                    selectOption(index, optionEl);
+                }
+            }
+            
+            // Enter to submit or go to next
+            if (e.key === 'Enter') {
+                if (submitBtn.style.display !== 'none' && !submitBtn.disabled) {
+                    submitAnswer();
+                } else if (nextBtn.style.display !== 'none') {
+                    nextQuestion();
+                }
+            }
+            
+            // Space for hint
+            if (e.key === ' ' && !hintBtn.disabled) {
+                const question = questions[currentQuestion];
+                showHint(question.hint);
+                e.preventDefault(); // Prevent page scroll
+            }
+        });
+
+        // Initialize the game
+        createCategorySelector();
+        initGame();
+    </script>
+</body>
+</html>
